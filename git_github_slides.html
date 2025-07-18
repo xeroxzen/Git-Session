@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git & GitHub Intro - Emzini We Code</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+        overflow: hidden;
+      }
+
+      .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slide {
+        display: none;
+        width: 90%;
+        max-width: 1200px;
+        height: 90vh;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 60px;
+        text-align: center;
+        position: relative;
+        overflow-y: auto;
+      }
+
+      .slide.active {
+        display: block;
+        animation: slideIn 0.5s ease-in-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-size: 3.5em;
+        margin-bottom: 30px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: white;
+      }
+
+      h2 {
+        font-size: 2.5em;
+        margin-bottom: 25px;
+        color: #2c3e50;
+      }
+
+      h3 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #34495e;
+      }
+
+      p,
+      li {
+        font-size: 1.3em;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        color: #555;
+      }
+
+      .logo {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 1.2em;
+        color: #667eea;
+        font-weight: bold;
+      }
+
+      .slide-number {
+        position: absolute;
+        bottom: 20px;
+        right: 30px;
+        color: #999;
+        font-size: 1em;
+      }
+
+      .navigation {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+      }
+
+      .nav-btn {
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        padding: 15px 25px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #667eea;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-btn:hover {
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .code-block {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 25px;
+        border-radius: 15px;
+        font-family: "Courier New", monospace;
+        font-size: 1.1em;
+        margin: 20px 0;
+        text-align: left;
+        overflow-x: auto;
+      }
+
+      .highlight {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 25px;
+        display: inline-block;
+        margin: 5px;
+        font-weight: bold;
+      }
+
+      .objectives {
+        text-align: left;
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .objectives h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+      }
+
+      .emoji {
+        font-size: 2em;
+        margin: 0 10px;
+      }
+
+      .activity-box {
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .activity-box h3 {
+        color: white;
+        margin-bottom: 15px;
+      }
+
+      .tips-box {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin: 20px 0;
+      }
+
+      .intro-slide {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .intro-slide h1,
+      .intro-slide h2,
+      .intro-slide p {
+        color: white;
+      }
+
+      .workflow-diagram {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 30px 0;
+      }
+
+      .workflow-step {
+        background: #667eea;
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        flex: 1;
+        margin: 0 10px;
+        position: relative;
+      }
+
+      .workflow-step::after {
+        content: "→";
+        position: absolute;
+        right: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5em;
+        color: #667eea;
+      }
+
+      .workflow-step:last-child::after {
+        display: none;
+      }
+
+      .resources {
+        text-align: left;
+        background: #e8f5e8;
+        padding: 30px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .resources h3 {
+        color: #27ae60;
+        margin-bottom: 20px;
+      }
+
+      .resources a {
+        color: #2980b9;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .resources a:hover {
+        text-decoration: underline;
+      }
+
+      ul {
+        text-align: left;
+        margin: 20px 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      .slide-counter {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        background: rgba(102, 126, 234, 0.1);
+        padding: 10px 20px;
+        border-radius: 20px;
+        color: #667eea;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slideshow-container">
+      <!-- Slide 1: Title -->
+      <div class="slide active intro-slide">
+        <div class="logo">Emzini We Code</div>
+        <h1>Git & GitHub Session</h1>
+        <h2>Version Control</h2>
+        <p style="font-size: 1.5em; margin-top: 40px">
+          Git Introduction Session
+        </p>
+        <p style="font-size: 1.2em; margin-top: 20px">
+          Duration: 2 hours | Interactive & Hands-on
+        </p>
+        <div class="emoji">🚀 💻 🌟</div>
+      </div>
+
+      <!-- Slide 2: Welcome & Icebreaker -->
+      <div class="slide">
+        <div class="slide-counter">2 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Welcome & Quick Intro!</h2>
+        <div class="activity-box">
+          <h3>Quick Icebreaker</h3>
+          <p>I'm Andile, your co-Instructor for this year's class</p>
+        </div>
+        <div class="two-column">
+          <div>
+            <h3>What we'll cover today:</h3>
+            <ul>
+              <li>Git fundamentals</li>
+              <li>GitHub collaboration</li>
+              <li>Real-world workflows</li>
+              <li>Hands-on practice</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Why this matters:</h3>
+            <ul>
+              <li>Essential developer skill</li>
+              <li>Industry standard</li>
+              <li>Team collaboration</li>
+              <li>Portfolio building</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Session Objectives -->
+      <div class="slide">
+        <div class="slide-counter">3 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Session Objectives</h2>
+        <div class="objectives">
+          <h3>By the end of this session, you'll be able to:</h3>
+          <ul>
+            <li>✅ Understand what Git is and why it's used</li>
+            <li>✅ Initialize and manage a Git repository</li>
+            <li>✅ Track changes using Git commands</li>
+            <li>✅ Create and use GitHub repositories</li>
+            <li>✅ Collaborate with others using pull requests</li>
+          </ul>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.4em">
+          Ready to become a Git master? Let's go! 🚀
+        </p>
+      </div>
+
+      <!-- Slide 4: What is Version Control? -->
+      <div class="slide">
+        <div class="slide-counter">4 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>What is Version Control?</h2>
+        <div class="two-column">
+          <div>
+            <h3>Traditional Approach:</h3>
+            <ul>
+              <li>project_final.py</li>
+              <li>project_final_v2.py</li>
+              <li>project_final_FINAL.py</li>
+              <li>project_final_FINAL_v2.py</li>
+              <li>project_final_THIS_ONE.py</li>
+            </ul>
+            <p style="color: #e74c3c; font-weight: bold">Sound familiar?</p>
+          </div>
+          <div>
+            <h3>With Git:</h3>
+            <ul>
+              <li>📸 Snapshots of your code</li>
+              <li>🕒 Complete history</li>
+              <li>🔄 Easy rollbacks</li>
+              <li>👥 Team collaboration</li>
+              <li>🌿 Parallel development</li>
+            </ul>
+            <p style="color: #27ae60; font-weight: bold">Much better!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: Git vs GitHub -->
+      <div class="slide">
+        <div class="slide-counter">5 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Git vs GitHub</h2>
+        <div class="two-column">
+          <div>
+            <div class="highlight">Git</div>
+            <ul>
+              <li>🛠️ Version control system</li>
+              <li>💻 Runs on your computer</li>
+              <li>📁 Manages local repositories</li>
+              <li>⚡ Fast and efficient</li>
+              <li>🔧 Command-line tool</li>
+            </ul>
+          </div>
+          <div>
+            <div class="highlight">GitHub</div>
+            <ul>
+              <li>☁️ Cloud hosting service</li>
+              <li>🌐 Web-based platform</li>
+              <li>👥 Collaboration features</li>
+              <li>📊 Project management</li>
+              <li>🔍 Code review tools</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.4em">
+          Git = Engine | GitHub = Social Network for Code
+        </p>
+      </div>
+
+      <!-- Slide 6: Git Basics - Core Concepts -->
+      <div class="slide">
+        <div class="slide-counter">6 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Git Basics: Core Concepts</h2>
+        <div class="workflow-diagram">
+          <div class="workflow-step">
+            <strong>Working Directory</strong><br />
+            Your project files
+          </div>
+          <div class="workflow-step">
+            <strong>Staging Area</strong><br />
+            Prepared changes
+          </div>
+          <div class="workflow-step">
+            <strong>Repository</strong><br />
+            Committed history
+          </div>
+        </div>
+        <div class="two-column">
+          <div>
+            <h3>Key Terms:</h3>
+            <ul>
+              <li><strong>Repository:</strong> Your project folder</li>
+              <li><strong>Commit:</strong> A snapshot in time</li>
+              <li><strong>Branch:</strong> Parallel timeline</li>
+              <li><strong>Remote:</strong> Cloud copy</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Git Philosophy:</h3>
+            <ul>
+              <li>🔒 Data integrity</li>
+              <li>📈 Track everything</li>
+              <li>🌿 Branch freely</li>
+              <li>🤝 Collaborate safely</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 7: Essential Git Commands -->
+      <div class="slide">
+        <div class="slide-counter">7 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Essential Git Commands 💻</h2>
+        <div class="code-block">
+          # First-time setup git config --global user.name "Your Name" <br />
+          git config --global user.email "you@example.com" # Starting a project
+          <br />
+          git init # Initialize repository <br />
+          git status # Check current state <br />
+          git add filename.py # Stage specific file <br />
+          git add . # Stage all changes <br />
+          git commit -m "message" # Save snapshot <br />
+          git log # View history <br />
+        </div>
+        <p style="margin-top: 20px; font-size: 1.3em">
+          These 7 commands will handle 80% of your Git needs!
+        </p>
+      </div>
+
+      <!-- Slide 8: Hands-on Activity 1 -->
+      <div class="slide">
+        <div class="slide-counter">8 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Hands-on Activity 1</h2>
+        <div class="activity-box">
+          <h3>Let's Create Our First Repository!</h3>
+          <div style="text-align: left; margin-top: 20px">
+            <p><strong>Steps:</strong></p>
+            <ol>
+              <li>Create a new folder called "my-first-repo"</li>
+              <li>Initialize Git in that folder</li>
+              <li>Create a README.md file</li>
+              <li>Add and commit your first change</li>
+              <li>Check the log to see your commit</li>
+            </ol>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.2em">
+          ⏱️ Let's take 10 minutes to try this together!
+        </p>
+      </div>
+
+      <!-- Slide 9: Branching & Merging -->
+      <div class="slide">
+        <div class="slide-counter">9 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Branching & Merging</h2>
+        <div class="two-column">
+          <div>
+            <h3>Why Branches?</h3>
+            <ul>
+              <li>🔧 Work on features separately</li>
+              <li>🐛 Fix bugs without affecting main code</li>
+              <li>🧪 Experiment safely</li>
+              <li>👥 Multiple developers, no conflicts</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Branch Commands:</h3>
+            <div class="code-block">
+              git branch # List branches git branch feature-login # Create
+              branch git checkout feature-login # Switch to branch git checkout
+              -b new-feature # Create + switch git merge feature-login # Merge
+              branch
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.3em">
+          Think of branches like parallel universes for your code!
+        </p>
+      </div>
+
+      <!-- Slide 10: Hands-on Activity 2 -->
+      <div class="slide">
+        <div class="slide-counter">10 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Hands-on Activity 2</h2>
+        <div class="activity-box">
+          <h3>Let's Practice Branching!</h3>
+          <div style="text-align: left; margin-top: 20px">
+            <p><strong>Steps:</strong></p>
+            <ol>
+              <li>Create a new branch called "add-about-page"</li>
+              <li>Switch to this branch</li>
+              <li>Add a new file called "about.md"</li>
+              <li>Commit your changes</li>
+              <li>Switch back to main branch</li>
+              <li>Merge your feature branch</li>
+            </ol>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.2em">
+          ⏱️ 15 minutes for this one - don't worry if you get stuck!
+        </p>
+      </div>
+
+      <!-- Slide 11: Introduction to GitHub -->
+      <div class="slide">
+        <div class="slide-counter">11 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Welcome to GitHub!</h2>
+        <div class="two-column">
+          <div>
+            <h3>What is GitHub?</h3>
+            <ul>
+              <li>☁️ Cloud storage for Git repos</li>
+              <li>👥 Collaboration platform</li>
+              <li>🔍 Code review system</li>
+              <li>📊 Project management</li>
+              <li>🌟 Developer portfolio</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Key Features:</h3>
+            <ul>
+              <li>🔒 Public & Private repos</li>
+              <li>🔄 Pull Requests</li>
+              <li>🐛 Issues tracking</li>
+              <li>📚 Wiki & Documentation</li>
+              <li>🤖 GitHub Actions (CI/CD)</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.3em">
+          GitHub is like LinkedIn for developers - showcase your code! 💼
+        </p>
+      </div>
+
+      <!-- Slide 12: Connecting Local to Remote -->
+      <div class="slide">
+        <div class="slide-counter">12 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Connecting Local to Remote</h2>
+        <div class="code-block">
+          # Connect your local repo to GitHub git remote add origin
+          https://github.com/username/repo-name.git # Push your code to GitHub
+          git push -u origin main # Future pushes (after first time) git push #
+          Get updates from GitHub git pull
+        </div>
+        <div class="tips-box">
+          <h3>Pro Tips:</h3>
+          <ul>
+            <li>Always pull before you push</li>
+            <li>Use SSH keys for easier authentication</li>
+            <li>Keep your main branch clean</li>
+            <li>Use descriptive commit messages</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slide 13: Hands-on Activity 3 -->
+      <div class="slide">
+        <div class="slide-counter">13 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Hands-on Activity 3</h2>
+        <div class="activity-box">
+          <h3>Push Your First Repo to GitHub!</h3>
+          <div style="text-align: left; margin-top: 20px">
+            <p><strong>Steps:</strong></p>
+            <ol>
+              <li>Create a new repository on GitHub</li>
+              <li>Copy the repository URL</li>
+              <li>Connect your local repo to GitHub</li>
+              <li>Push your code to GitHub</li>
+              <li>View your repository online</li>
+              <li>Edit the README directly on GitHub</li>
+              <li>Pull the changes back to your local repo</li>
+            </ol>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.2em">
+          ⏱️ 20 minutes - this is where the magic happens!
+        </p>
+      </div>
+
+      <!-- Slide 14: Collaboration Workflow -->
+      <div class="slide">
+        <div class="slide-counter">14 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Collaboration Workflow</h2>
+        <div class="workflow-diagram">
+          <div class="workflow-step">
+            <strong>Fork/Clone</strong><br />
+            Get the code
+          </div>
+          <div class="workflow-step">
+            <strong>Branch</strong><br />
+            Create feature
+          </div>
+          <div class="workflow-step">
+            <strong>Commit</strong><br />
+            Make changes
+          </div>
+          <div class="workflow-step">
+            <strong>Push</strong><br />
+            Share changes
+          </div>
+          <div class="workflow-step">
+            <strong>Pull Request</strong><br />
+            Request review
+          </div>
+        </div>
+        <div class="two-column">
+          <div>
+            <h3>Fork vs Clone:</h3>
+            <ul>
+              <li><strong>Fork:</strong> Your own copy on GitHub</li>
+              <li><strong>Clone:</strong> Copy to your computer</li>
+              <li>Fork first, then clone your fork</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Pull Requests:</h3>
+            <ul>
+              <li>Propose changes to a project</li>
+              <li>Code review process</li>
+              <li>Discussion and feedback</li>
+              <li>Merge when approved</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 15: Hands-on Activity 4 -->
+      <div class="slide">
+        <div class="slide-counter">15 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Hands-on Activity 4</h2>
+        <div class="activity-box">
+          <h3>Let's Collaborate! Pull Request Practice</h3>
+          <div style="text-align: left; margin-top: 20px">
+            <p><strong>Steps:</strong></p>
+            <ol>
+              <li>Clone the practice repository I'll provide</li>
+              <li>Create a new branch for your changes</li>
+              <li>Add your name to the contributors.md file</li>
+              <li>Commit and push your changes</li>
+              <li>Create a Pull Request on GitHub</li>
+              <li>Review someone else's Pull Request</li>
+              <li>Merge approved changes</li>
+            </ol>
+          </div>
+        </div>
+        <p style="margin-top: 30px; font-size: 1.2em">
+          ⏱️ 25 minutes - this is real-world collaboration! 🌍
+        </p>
+      </div>
+
+      <!-- Slide 16: Best Practices & Tips -->
+      <div class="slide">
+        <div class="slide-counter">16 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Best Practices & Pro Tips</h2>
+        <div class="two-column">
+          <div>
+            <h3>Commit Messages:</h3>
+            <ul>
+              <li>✅ "Add user authentication feature"</li>
+              <li>✅ "Fix login bug for mobile users"</li>
+              <li>❌ "Fixed stuff"</li>
+              <li>❌ "asdf"</li>
+            </ul>
+          </div>
+          <div>
+            <h3>General Tips:</h3>
+            <ul>
+              <li>🚫 Use .gitignore for sensitive files</li>
+              <li>📝 Write meaningful README files</li>
+              <li>🔄 Pull before you push</li>
+              <li>💾 Use git stash for temporary changes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tips-box">
+          <h3>When Things Go Wrong:</h3>
+          <ul>
+            <li>
+              <strong>Merge conflicts:</strong> Don't panic! Edit the files and
+              commit
+            </li>
+            <li><strong>Wrong commit:</strong> Use git reset or git revert</li>
+            <li><strong>Lost changes:</strong> Check git reflog</li>
+            <li>
+              <strong>Confused:</strong> Ask for help! Everyone struggles with
+              Git sometimes
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slide 17: Resources & Next Steps -->
+      <div class="slide">
+        <div class="slide-counter">17 / 17</div>
+        <div class="logo">Emzini We Code</div>
+        <h2>Resources & Next Steps</h2>
+        <div class="resources">
+          <h3>🔗 Learning Resources:</h3>
+          <ul>
+            <li>
+              <a href="https://learngitbranching.js.org" target="_blank"
+                >Learn Git Branching (Interactive)</a
+              >
+            </li>
+            <li>
+              <a href="https://docs.github.com" target="_blank"
+                >GitHub Documentation</a
+              >
+            </li>
+            <li>
+              <a href="https://ohshitgit.com" target="_blank"
+                >Oh Sh*t, Git!?! (Common Problems)</a
+              >
+            </li>
+            <li>
+              <a href="https://github.com/github/gitignore" target="_blank"
+                >Gitignore Templates</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="two-column">
+          <div>
+            <h3>Git GUIs:</h3>
+            <ul>
+              <li>GitHub Desktop</li>
+              <li>GitKraken</li>
+              <li>VS Code Git Panel</li>
+              <li>SourceTree</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Next Steps:</h3>
+            <ul>
+              <li>Practice daily with your projects</li>
+              <li>Contribute to open source</li>
+              <li>Build your GitHub portfolio</li>
+              <li>Learn advanced Git features</li>
+            </ul>
+          </div>
+        </div>
+        <div class="activity-box">
+          <h3>Challenge: Create Your Developer Portfolio</h3>
+          <p>
+            Build a personal website repository, push it to GitHub, and enable
+            GitHub Pages!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <button class="nav-btn" onclick="changeSlide(-1)" id="prevBtn">
+        ← Previous
+      </button>
+      <button class="nav-btn" onclick="changeSlide(1)" id="nextBtn">
+        Next →
+      </button>
+    </div>
+
+    <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slide");
+      const totalSlides = slides.length;
+
+      function showSlide(n) {
+        slides[currentSlide].classList.remove("active");
+        currentSlide = (n + totalSlides) % totalSlides;
+        slides[currentSlide].classList.add("active");
+
+        // Update navigation buttons
+        document.getElementById("prevBtn").disabled = currentSlide === 0;
+        document.getElementById("nextBtn").disabled =
+          currentSlide === totalSlides - 1;
+      }
+
+      function changeSlide(direction) {
+        if (direction === 1 && currentSlide < totalSlides - 1) {
+          showSlide(currentSlide + 1);
+        } else if (direction === -1 && currentSlide > 0) {
+          showSlide(currentSlide - 1);
+        }
+      }
+
+      // Keyboard navigation
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowRight" || event.key === " ") {
+          changeSlide(1);
+        } else if (event.key === "ArrowLeft") {
+          changeSlide(-1);
+        }
+      });
+    </script>
+  </body>
+</html>
